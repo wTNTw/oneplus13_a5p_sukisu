@@ -310,3 +310,42 @@ jobs:
         with:
          name: SuKiSu_${{ env.KSUVER }}_oneplus_13
          path: ./AnyKernel3/*
+
+      - name: Rename Artifact for Release
+        run: |
+         cd ./AnyKernel3 || { echo "错误：AnyKernel3目录不存在"; exit 1; }
+         target_dir="SuKiSu_${{ env.KSUVER }}_${{ github.event.inputs.KERNEL_SUFFIX }}"
+         mkdir -p "$target_dir"
+         shopt -s extglob
+         shopt -s dotglob
+         cp -r !("$target_dir") "$target_dir/"
+         target_zip="SuKiSu_${{ env.KSUVER }}_${{ github.event.inputs.KERNEL_SUFFIX }}.zip"
+         (cd "$target_dir" && zip -r "../$target_zip" * )
+         
+         # 移动ZIP文件到工作目录根目录
+         mv "$target_zip" ../
+
+      - name: Create Release and Upload Assets
+        if: ${{ success() }}
+        uses: softprops/action-gh-release@v1
+        with:
+         tag_name: oneplus_13
+         name: "OnePlus 13 - ${{ env.KSUVER }}"
+         body: |
+          ### OnePlus 13 Kernel Build
+          **版本信息**  
+          - 内核后缀: ${{ github.event.inputs.KERNEL_SUFFIX }}
+          - 构建时间: ${{ github.event.inputs.KERNEL_TIME }}
+          - KernelSU版本: ${{ env.KSUVER }}
+      
+          **功能特性**  
+          ✅ KPM支持: ${{ github.event.inputs.enable_feature_x }}  
+          ✅ LZ4KD压缩: ${{ github.event.inputs.enable_feature_y }}  
+          ✅ 风驰调度: ${{ github.event.inputs.enable_feature_z }}
+      
+          **下载说明**  
+          刷机前请确认设备型号匹配！
+         draft: false
+         prerelease: false
+         files: |
+           SuKiSu_${{ env.KSUVER }}.zip
