@@ -348,4 +348,4 @@ jobs:
          draft: false
          prerelease: false
          files: |
-           SuKiSu_${{ env.KSUVER }}.zip
+           ./SuKiSu_${{ env.KSUVER }}.zip
