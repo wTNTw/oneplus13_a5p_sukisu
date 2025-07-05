@@ -321,7 +321,7 @@ jobs:
          cp -r !("$target_dir") "$target_dir/"
          target_zip="SuKiSu_${{ env.KSUVER }}_${{ github.event.inputs.KERNEL_SUFFIX }}.zip"
          (cd "$target_dir" && zip -r "../$target_zip" * )
-   
+         
          # 移动ZIP文件到工作目录根目录
          mv "$target_zip" ../
 
@@ -329,23 +329,23 @@ jobs:
         if: ${{ success() }}
         uses: softprops/action-gh-release@v1
         with:
-        tag_name: oneplus_13_${{ env.KSUVER }}
-        name: "OnePlus 13 - ${{ env.KSUVER }}"
-        body: |
-        ### OnePlus 13 Kernel Build
-        **版本信息**  
-        - 内核后缀: ${{ github.event.inputs.KERNEL_SUFFIX }}
-        - 构建时间: ${{ github.event.inputs.KERNEL_TIME }}
-        - KernelSU版本: ${{ env.KSUVER }}
-
-        **功能特性**  
-        ✅ KPM支持: ${{ github.event.inputs.enable_feature_x }}  
-        ✅ LZ4KD压缩: ${{ github.event.inputs.enable_feature_y }}  
-        ✅ 风驰调度: ${{ github.event.inputs.enable_feature_z }}
-
-        **下载说明**  
-        刷机前请确认设备型号匹配！
-        draft: false
-        prerelease: false
-        files: |
-         ./SuKiSu_${{ env.KSUVER }}_${{ github.event.inputs.KERNEL_SUFFIX }}.zip
+         tag_name: oneplus_13_${{ env.KSUVER }}
+         name: "OnePlus 13 - ${{ env.KSUVER }}"
+         body: |
+          ### OnePlus 13 Kernel Build
+          **版本信息**  
+          - 内核后缀: ${{ github.event.inputs.KERNEL_SUFFIX }}
+          - 构建时间: ${{ github.event.inputs.KERNEL_TIME }}
+          - KernelSU版本: ${{ env.KSUVER }}
+      
+          **功能特性**  
+          ✅ KPM支持: ${{ github.event.inputs.enable_feature_x }}  
+          ✅ LZ4KD压缩: ${{ github.event.inputs.enable_feature_y }}  
+          ✅ 风驰调度: ${{ github.event.inputs.enable_feature_z }}
+      
+          **下载说明**  
+          刷机前请确认设备型号匹配！
+         draft: false
+         prerelease: false
+         files: |
+           ./SuKiSu_${{ env.KSUVER }}_${{ github.event.inputs.KERNEL_SUFFIX }}.zip
